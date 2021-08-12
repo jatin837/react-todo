@@ -1,15 +1,14 @@
 import Todo from "./components/Todo";
 
 function App(props) {
+	const taskList = props.tasks.map(task => 
+		(<Todo name={task.name} completed={task.completed} id={task.id}/>)
+	);
 
   return (
-
     <div className="todoapp stack-large">
-
       <h1>Todo</h1>
-
       <form>
-
         <h2 className="label-wrapper">
           <label htmlFor="new-todo-input" className="label__lg">
             What needs to be done?
@@ -61,8 +60,8 @@ function App(props) {
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading"
       >
-				<Todo name="Solve Differential Equation" completed={true} id="todo-01"/>
-				<Todo name="Watch Rick and Morty" completed={false} id="todo-02"/>
+
+				{taskList}
 
       </ul>
     </div>
