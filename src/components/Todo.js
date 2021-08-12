@@ -11,10 +11,10 @@ export default function Todo(props) {
 			</div>
 			<div className="btn-group">
 				<button type="button" className="btn">
-					Edit <span className="visually-hidden">Eat</span>
+					Edit <span className="visually-hidden">{props.name}</span>
 				</button>
 				<button type="button" className="btn btn__danger">
-					Delete <span className="visually-hidden">Eat</span>
+					Delete <span className="visually-hidden">{props.name}</span>
 				</button>
 			</div>
 		</li>
