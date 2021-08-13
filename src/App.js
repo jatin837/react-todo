@@ -21,7 +21,7 @@ function App(props) {
 				<FilterButton name="Completed" ariaStatus={false} />
 			</div>
       <h2 id="list-heading">
-        3 tasks remaining
+				{taskList.length} tasks remaining
       </h2>
       <ul
         role="list"

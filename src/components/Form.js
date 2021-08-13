@@ -3,11 +3,16 @@ import {useState} from "react";
 
 const Form = (props) => {
 
-	const [name, setName] = useState('Complete This React Project!');
+	const [name, setName] = useState('');
 
-	function handleSubmit(e) {
+	const handleSubmit = (e) => {
 		e.preventDefault();
-		props.addTask("Complete this react project");
+		props.addTask("");
+	}
+
+	const handleChange = (e) => {
+		console.log(e);
+		setName(e.target.value);
 	}
 
 	return (
@@ -25,6 +30,7 @@ const Form = (props) => {
         name="text"
         autoComplete="off"
 				value={name}
+				onChange={handleChange}
       />
 
       <button type="submit" className="btn btn__primary btn__lg">
