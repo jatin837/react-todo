@@ -8,6 +8,7 @@ const Form = (props) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		props.addTask(`So you want to add ${name} to the list, implement it yourself then!`);
+		setName('');
 	}
 
 	const handleChange = (e) => {
