@@ -6,20 +6,22 @@ import { nanoid } from "nanoid";
 
 function App(props) {
 
-	const initialTaskList = props.tasks.map(task => 
-		(<Todo name={task.name} completed={task.completed} id={task.id} key={task.id}/>)
+	const [taskList, setTaskList] = useState(props.tasks);
+	const renderTaskList = (taskList) => taskList.map(
+		(task) => <Todo 
+			id={task.id} 
+			name={task.name} 
+			completed={task.completed} 
+			key={task.id} />
 	);
-
-	const [taskList, setTaskList] = useState(initialTaskList)
-
 	const addTask = (name) => {
-		const newTask = <Todo
-			id = { "todo---" + nanoid() }
-			name = {name}
-			completed = {false}
-		/>
+		const newTask = {
+			id:  "todo-" + nanoid(),
+			name: name,
+			completed: false
+		};
 		setTaskList([...taskList, newTask]);
-	}
+	};
 
   return (
     <div className="todoapp stack-large">
@@ -38,10 +40,10 @@ function App(props) {
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading"
       >
-				{taskList}
+				{renderTaskList(taskList)}
       </ul>
     </div>
   );
 }
 
-export default App
+export default App;
