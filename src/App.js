@@ -8,7 +8,7 @@ function App(props) {
 
 	const [taskList, setTaskList] = useState(props.tasks);
 
-	function toggleTaskCompleted(id) {
+	const toggleTaskCompleted = (id) => {
 		const updatedTasks = taskList.map( (task) => {
 			if (id === task.id){
 				console.log({...task, completed: !task.completed});
@@ -19,12 +19,20 @@ function App(props) {
 		setTaskList(updatedTasks);
 	}
 
+	const deleteTask = (id) => {
+		const newTaskList = taskList.filter( 
+			(task) => id !== task.id 
+		);
+		setTaskList(newTaskList);
+	};
+
 	const renderTaskList = (taskList) => taskList.map(
 		(task) => <Todo 
 			id={task.id} 
 			name={task.name} 
 			completed={task.completed} 
 			toggleTaskCompleted={toggleTaskCompleted}
+			deleteTask={deleteTask}
 			key={task.id} 
 		/>
 	);
