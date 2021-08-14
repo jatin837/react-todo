@@ -4,9 +4,25 @@ import FilterButton from "./components/FilterButton";
 import React, {useState} from "react";
 import { nanoid } from "nanoid";
 
-const App = (props) => {
+const FILTER_MAP = {
+	All: () => true,
+	Active: (task) => !task.completed,
+	Completed: (task) => task.completed
+}
 
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
+const App = (props) => {
 	const [taskList, setTaskList] = useState(props.tasks);
+	const [filter, setFilter] = useState('all');
+	const filterList = FILTER_NAMES.map(
+		(name) => <FilterButton 
+			key = {name} 
+			name = {name}
+			isPressed = {name === filter}
+			setFilter = {setFilter}
+		/>
+	);
 
 	/*
 	 * PROP CALLBACK
@@ -77,9 +93,7 @@ const App = (props) => {
 			<Form addTask={addTask}/>
 
       <div className="filters btn-group stack-exception">
-				<FilterButton name="All" ariaStatus={true} />
-				<FilterButton name="Active" ariaStatus={false} />
-				<FilterButton name="Completed" ariaStatus={false} />
+				{filterList}
 			</div>
 
       <h2 id="list-heading">
