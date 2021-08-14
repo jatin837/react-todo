@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import { nanoid } from "nanoid";
 
 const FILTER_MAP = {
-	All: () => true,
+	All: (task) => true,
 	Active: (task) => !task.completed,
 	Completed: (task) => task.completed
 }
@@ -13,8 +13,8 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 const App = (props) => {
-	const [taskList, setTaskList] = useState(props.tasks);
-	const [filter, setFilter] = useState('all');
+	const [tasks, setTasks] = useState(props.tasks);
+	const [filter, setFilter] = useState('All');
 	const filterList = FILTER_NAMES.map(
 		(name) => <FilterButton 
 			key = {name} 
@@ -31,14 +31,14 @@ const App = (props) => {
 	 */
 
 	const toggleTaskCompleted = (id) => {
-		const updatedTasks = taskList.map( (task) => {
+		const updatedTasks = tasks.map( (task) => {
 			if (id === task.id){
 				console.log({...task, completed: !task.completed});
 				return {...task, completed: !task.completed};
 			}
 			return task;
 		});
-		setTaskList(updatedTasks);
+		setTasks(updatedTasks);
 	}
 
 	/*
@@ -47,23 +47,11 @@ const App = (props) => {
 	 and update the taskList
 	 */
 	const deleteTask = (id) => {
-		const newTaskList = taskList.filter( 
+		const newTaskList = tasks.filter( 
 			(task) => id !== task.id 
 		);
-		setTaskList(newTaskList);
+		setTasks(newTaskList);
 	};
-
-	const renderTaskList = (taskList) => taskList.map(
-		(task) => <Todo 
-			id={task.id} 
-			name={task.name} 
-			completed={task.completed} 
-			toggleTaskCompleted={toggleTaskCompleted}
-			deleteTask={deleteTask}
-			editTask={editTask}
-			key={task.id} 
-		/>
-	);
 
 	const addTask = (name) => {
 		const newTask = {
@@ -71,11 +59,12 @@ const App = (props) => {
 			name: name,
 			completed: false
 		};
-		setTaskList([...taskList, newTask]);
+		setTasks([...tasks, newTask]);
 	};
 
+
 	const editTask = (id, newName) => {
-		const editedTaskList = taskList.map(
+		const editedTaskList = tasks.map(
 			(task) => {
 				if (task.id === id)
 					return {...task, name:newName};
@@ -83,8 +72,22 @@ const App = (props) => {
 					return task;
 			}
 		)
-		setTaskList(editedTaskList);
+		setTasks(editedTaskList);
 	}
+
+	const taskList = tasks
+	.filter(FILTER_MAP[filter])
+	.map(task => (
+		  <Todo
+		    id={task.id}
+		    name={task.name}
+		    completed={task.completed}
+		    key={task.id}
+		    toggleTaskCompleted={toggleTaskCompleted}
+		    deleteTask={deleteTask}
+		    editTask={editTask}
+		  />
+	));
 
   return (
     <div className="todoapp stack-large">
@@ -97,7 +100,7 @@ const App = (props) => {
 			</div>
 
       <h2 id="list-heading">
-				{taskList.length} tasks remaining
+				{tasks.length} tasks remaining
       </h2>
 
       <ul
@@ -105,7 +108,7 @@ const App = (props) => {
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading"
       >
-				{renderTaskList(taskList)}
+				{taskList}
       </ul>
     </div>
   );
