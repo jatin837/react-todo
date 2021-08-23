@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-export default function Todo(props) {
+const Todo = (props) => {
 
 	const [isEditing, setEditing] = useState(false);
 	const [newName, setNewName] = useState('');
@@ -90,3 +90,5 @@ export default function Todo(props) {
 		
 	return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
 }
+
+export default Todo
